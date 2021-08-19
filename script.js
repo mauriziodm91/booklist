@@ -19,7 +19,7 @@ UI.prototype.addBookToList = function(book){
     `;
     list.appendChild(row);
 };
-
+//Prototype function that handles alerts inside the app
 UI.prototype.showAlert = function(message, className){
     const div = document.createElement('div');
     div.className = `alert ${className}`;
@@ -32,12 +32,18 @@ UI.prototype.showAlert = function(message, className){
     }, 3000);
 }
 
+UI.prototype.deleteBook = function(target){
+    if(target.className === 'delete'){
+        target.parentElement.parentElement.remove();
+    }
+}
+
 UI.prototype.clearFields = function (){
     document.getElementById('title').value = '';
     document.getElementById('author').value = '';
     document.getElementById('isbn').value = '';
 }
-
+//Event listener for adding a book
 document.getElementById('book-form').addEventListener('submit', function(e){
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
@@ -52,6 +58,17 @@ document.getElementById('book-form').addEventListener('submit', function(e){
         ui.showAlert('Book Added', 'success');
         ui.clearFields();
     }
+    
+    e.preventDefault();
+});
+
+//Event lsitener for delete
+
+document.getElementById('book-list').addEventListener('click', function (e){
+    const ui = new UI();
+    ui.deleteBook(e.target);
+
+    ui.showAlert('Book Removed', 'success');
     
     e.preventDefault();
 });
